@@ -20,10 +20,10 @@ def post_vaccinations():
         verify_values(data)
 
         new_data = {
-        "name": data["name"],
         "cpf": data["cpf"],
-        "vaccine_name": data["vaccine_name"],
-        "health_unit_name": data["health_unit_name"]}
+        "name": data["name"].lower(),
+        "vaccine_name": data["vaccine_name"].lower(),
+        "health_unit_name": data["health_unit_name"].lower()}
         
         vaccine = Vaccine(**new_data)
 
