@@ -10,14 +10,16 @@ def verify_values(data):
     for key in data:
         if type(key) != str:
             raise TypeError
-        if len(data["cpf"]) != 11 or data["cpf"].isdigit() == False:
-            return {"error": "O campo cpf deve conter 11 dígitos"}, HTTPStatus.BAD_REQUEST 
+
 
 def post_vaccinations():
     try:
         data = request.get_json()
 
-        verify_values(data)
+        if len(data["cpf"]) != 11 or data["cpf"].isdigit() == False:
+            return {"error": "The CPF field must contain 11 numeric digits"}, HTTPStatus.BAD_REQUEST 
+
+        verify_values(data)     
 
         new_data = {
         "cpf": data["cpf"],
@@ -33,14 +35,14 @@ def post_vaccinations():
 
         return jsonify(vaccine), HTTPStatus.CREATED
 
-    except TypeError:
-        return {"error": "O campos dever sem somente strings"}, HTTPStatus.BAD_REQUEST  
+    except (TypeError, AttributeError):
+        return {"error": "Fields must contain only strings"}, HTTPStatus.BAD_REQUEST  
 
     except IntegrityError:
-        return {"error": "O cpf inserido já existe"}, HTTPStatus.CONFLICT
+        return {"error": "The CPF entered already exists"}, HTTPStatus.CONFLICT
 
     except KeyError:
-        return {"error": "As chaves passadas estão incorreta"}, HTTPStatus.BAD_REQUEST
+        return {"error": "One or more keys sent are incorrect"}, HTTPStatus.BAD_REQUEST
 
     
 def get_vaccines():

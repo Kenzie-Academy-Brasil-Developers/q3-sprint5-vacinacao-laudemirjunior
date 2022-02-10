@@ -16,7 +16,7 @@ class Vaccine(db.Model):
  
     __tablename__ = "vaccine_cards"
 
-    cpf = Column(String(11), primary_key=True)
+    cpf = Column(String, primary_key=True)
     name = Column(String, nullable=False)
     first_shot_date = Column(DateTime, default=datetime.utcnow())
     second_shot_date = Column(DateTime, default=(datetime.utcnow() + timedelta(days=90)))
